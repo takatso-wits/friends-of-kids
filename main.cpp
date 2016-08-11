@@ -5,18 +5,15 @@
 #include "window.h"
 #include "texture.h"
 #include "tile.h"
+#include "helpers.h"
 
-using namespace std;
-
- Tile pm(0,0,{ {1,1},{1,2}, {1,1}, {1,3} }, Pacman, 1,1);
- int frame = 0;
- 
- //vector<Tile> testTiles = getTestTiles();
- 
+using namespace std; 
 int main()
 {
     Texture myTexture;
-  
+    vector<Tile> testTiles = getTestTiles();
+    Tile pm(0,0,{ {1,1},{1,2}, {1,1}, {1,3} }, Pacman, 1,1);
+    int frame = 0;
     // SpriteSheet Filename
     string spriteFilename = SPRITEFILENAME; // Leave this line
 
@@ -39,25 +36,21 @@ int main()
         SDL_RenderClear(myTexture.myWin.sdlRenderer);
         // Render the tile
         
-       pm.render(&myTexture, frame);
+       //pm.render(&myTexture, frame);
        
-       //loop to iterate through testTiles
+      
        
-      /*for(int i = 0; i < testTiles.size(); i++)
+      for(int i = 0; i < testTiles.size(); i++)
       {
         
-        testTiles[i].render(&myTexture, i);
+        testTiles[i].render(&myTexture, frame);
          
       }
-        */
-       
-        
+
         SDL_RenderPresent(myTexture.myWin.sdlRenderer);
         frame++;
         this_thread::sleep_for(chrono::milliseconds(75));
     }
     
-  
-
     return 0;
 }
