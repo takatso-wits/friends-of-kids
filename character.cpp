@@ -9,10 +9,11 @@
  * @param t Type of character.
  */
 Character::Character(int myX, int myY, TileType t)
-    : uTile(/* ??? */), dTile(/* ??? */), lTile(/* ??? */), rTile(/* ??? */)
+    : uTile(makeTile(myX,myY,t,dir)), dTile(makeTile(myX,myY,t,dir)), lTile(makeTile(myX,myY,t,dir)), rTile(makeTile(myX,myY,t,dir))
 {
     // The tiles above have to be constructed with the class above.
     // Why can't we rather just set their value in here using uTile = makeTile(...)?
+    
 }
 
 /**
@@ -22,6 +23,17 @@ Character::Character(int myX, int myY, TileType t)
  */
 void Character::render(Texture *t, int frame)
 {
+	switch(dir){
+		case Up:
+			uTile.render(t,frame);
+		case Down:
+			dTile.render(t,frame);
+		case Right:
+			rTile.render(t,frame);
+		default:
+			lTile.render(t,frame);
+			
+	}
 
 }
 /**
@@ -50,3 +62,4 @@ void Character::handle_event(const SDL_Event &e)
         }
     }
 }
+
