@@ -10,6 +10,11 @@ using namespace std;
  */
 Texture::Texture()
 {
+	myHeight = -1;
+	myWidth = -1;
+	myTileWidth = -1;
+	myTileHeight = -1;
+	myTexture = nullptr;
 
 }
 
@@ -67,11 +72,16 @@ void Texture::free()
 {
     // Check whether there is actually a texture to free
     if(myTexture != nullptr){
-        // Destroy the SDL texture
-        SDL_DestroyTexture(myTexture);
+		// Destroy the SDL texture
+     	SDL_DestroyTexture(myTexture);
 
-        // Reset all the variables.
-        // You need to do this...
+        	// Reset all the variables.
+        	// You need to do this...
+        	myHeight = -1;
+	   	myWidth = -1;
+		myTileWidth = -1;
+		myTileHeight = -1;
+		myTexture = nullptr;
     }
 }
 
@@ -91,6 +101,14 @@ void Texture::render(int x, int y, SDL_Rect src)
     //   to the renderer's buffer - it doesn't actually
     //   put it on the screen yet.
     // Call SDL_RenderCopy(?????)
+    SDL_Rect dest = {x,y,myWidth,myHeight};
+    dest.x = src.x;
+    dest.y = src.y;
+    dest.w = src.w;
+    dest.h = src.h;
+    
+    SDL_RenderCopy(myWin.sdlRenderer, myTexture, &src, &dest);
+    
 
 }
 /**
@@ -105,8 +123,9 @@ void Texture::render(int x, int y, SDL_Rect src)
 void Texture::render(int x, int y, int ssRow, int ssCol, int w, int h)
 {
     // Get the SDL_Rect source using getSpritePosition
-
+    								//getSpritePosition(ssRow,ssCol,w, h);
     // Call the other version of render
+    								render(x,y,getSpritePosition(ssRow,ssCol,w, h));
 
 }
 
@@ -119,8 +138,13 @@ void Texture::render(int x, int y, int ssRow, int ssCol, int w, int h)
  * @return An SDL_Rect that can be used by the render function to blit the sprit to the screen
  */
 SDL_Rect Texture::getSpritePosition(int ssRow, int ssCol, int width, int height)
-{
-
+{	
+	SDL_Rect newRect;
+	newRect.y = ssRow*myTileHeight;
+	newRect.x = ssCol*myTileWidth;
+	newRect.w = width*myTileWidth;
+	newRect.h = height*myTileHeight;
+	return newRect;
 }
 
 /**
@@ -129,7 +153,7 @@ SDL_Rect Texture::getSpritePosition(int ssRow, int ssCol, int width, int height)
  */
 int Texture::sheetWidth()
 {
-
+	return myWidth;
 }
 
 /**
@@ -138,7 +162,7 @@ int Texture::sheetWidth()
  */
 int Texture::sheetHeight()
 {
-
+	return myHeight;
 }
 
 /**
@@ -147,7 +171,7 @@ int Texture::sheetHeight()
  */
 int Texture::tileWidth()
 {
-
+	return myTileWidth;
 }
 
 /**
@@ -156,6 +180,7 @@ int Texture::tileWidth()
  */
 int Texture::tileHeight()
 {
+	return myTileHeight;
 
 }
 
