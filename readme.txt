@@ -1,4 +1,4 @@
 COMS1017-IDSA Pacman Template
 
-Student Number:
-Name:
+Student Number:569869
+Name:Takatso
