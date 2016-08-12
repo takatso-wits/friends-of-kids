@@ -9,7 +9,7 @@
  * @param t Type of character.
  */
 Character::Character(int myX, int myY, TileType t)
-    : uTile(makeTile(myX,myY,t,dir)), dTile(makeTile(myX,myY,t,dir)), lTile(makeTile(myX,myY,t,dir)), rTile(makeTile(myX,myY,t,dir))
+    : uTile(makeTile(myX,myY,t,Up)), dTile(makeTile(myX,myY,t,Down)), lTile(makeTile(myX,myY,t,Left)), rTile(makeTile(myX,myY,t,Right))
 {
     // The tiles above have to be constructed with the class above.
     // Why can't we rather just set their value in here using uTile = makeTile(...)?
@@ -25,13 +25,13 @@ void Character::render(Texture *t, int frame)
 {
 	switch(dir){
 		case Up:
-			uTile.render(t,frame);
+			uTile.render(t,frame); break;
 		case Down:
-			dTile.render(t,frame);
+			dTile.render(t,frame); break;
 		case Right:
-			rTile.render(t,frame);
+			rTile.render(t,frame); break;
 		default:
-			lTile.render(t,frame);
+			lTile.render(t,frame); break;
 			
 	}
 

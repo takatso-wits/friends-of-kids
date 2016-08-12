@@ -19,14 +19,64 @@ using namespace std;
  * @param tileHeight - Height of each tile
  */
 World::World(string filename, int tileWidth, int tileHeight)
-    : food(0), points(0), ready(true), pacman(0,0,Pacman)
+    : food(0), points(0), ready(true), pacman(5*20,9*20,Pacman)
 {
     ifstream f(filename);
     if(!f.is_open())
         throw runtime_error("Couldn't open maze file " + filename);
-    // Code to read in the file...
-
-}
+    else
+    {
+      // Code to read in the file...
+      f>>rows;
+      f>>cols;
+      string mazeLine;
+      getline(f, mazeLine);
+      
+      for(int i = 0; i < rows; i++){
+        
+        getline(f,mazeLine);
+        vector<Tile> tiles;
+        
+        for(int j = 0; j < cols; j++){
+          
+          switch(mazeLine[j]){
+          	case 'x':
+       			tiles.push_back( makeTile(j*20,i*20,Wall,Right)); 
+          		break;
+          
+          	case ' ':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;
+            
+          	case '.':
+            		tiles.push_back(makeTile(j*20,i*20,Food,Right));
+            		food++;
+           	break;
+          	case '0':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;            
+          	case '1':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;
+            
+          	case '2':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;
+            
+          	case '3':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;
+            
+          	case '4':
+            		tiles.push_back(makeTile(j*20,i*20,Blank,Right)); 
+            		break;
+          }
+        }
+        maze.push_back(tiles);
+        
+      }
+    }
+ }
 
 /**
  * Renders the World to the ::sdlRenderer buffer.
@@ -37,6 +87,12 @@ World::World(string filename, int tileWidth, int tileHeight)
  */
 void World::render(Texture *t, int frame)
 {
+	for(int i = 0; i < rows; i++){
+    		for(int j = 0; j < cols; j++){
+      		maze[i][j].render(t, frame);
+    		}
+    	}
+  pacman.render(t, frame);
 
 }
 
@@ -50,5 +106,18 @@ void World::render(Texture *t, int frame)
  */
 bool World::UpdateWorld()
 {
+	SDL_Rect A = pacman.getNextPosition();
+	
+	pacman.x = A.x;
+	pacman.y = A.y;
+	(pacman.uTile).x = A.x;
+	(pacman.uTile).x = A.x;
+	(pacman.dTile).x = A.x;
+	(pacman.dTile).x = A.x;
+	(pacman.rTile).x = A.x;
+	(pacman.rTile).x = A.x;
+	(pacman.lTile).x = A.x;
+	(pacman.lTile).x = A.x;
+	
 
 }
